@@ -1,0 +1,6 @@
+# Created at 2026-06-03T14:39:23.935
+Java heap space: failed reallocation of scalar replaced objects
+
+# Created at 2026-06-03T14:39:53.721
+Surefire is going to kill self fork JVM. The exit has elapsed 30 seconds after System.exit(0).
+

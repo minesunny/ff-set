@@ -1,0 +1,14 @@
+com/minesunny/ffset/JSONFollowSetTest.class
+com/minesunny/ffset/compile/GrammarContext.class
+com/minesunny/ffset/JPAFirstSetTest.class
+com/minesunny/ffset/compile/JavaClassAsBytes.class
+com/minesunny/ffset/compile/InMemoryClassLoader.class
+com/minesunny/ffset/ComplexFollowSetTest.class
+com/minesunny/ffset/SimpleFirstSetTest.class
+com/minesunny/ffset/compile/GrammarFileTest.class
+com/minesunny/ffset/ComplexFirstSetTest.class
+com/minesunny/ffset/BasicTest.class
+com/minesunny/ffset/compile/InMemoryFileManager.class
+com/minesunny/ffset/SimpleFollowSetTest.class
+com/minesunny/ffset/JSONFirstSetTest.class
+com/minesunny/ffset/compile/JavaSourceFromString.class

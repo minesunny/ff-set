@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.minesunny.ffset.JPAFirstSetTest
+-------------------------------------------------------------------------------
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.525 s -- in com.minesunny.ffset.JPAFirstSetTest
