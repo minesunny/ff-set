@@ -3,6 +3,17 @@ package site.maien.antlr4.ffset;
 import org.antlr.v4.runtime.atn.*;
 import java.util.*;
 
+/**
+ * Computes the FIRST and FOLLOW sets of every rule in an ANTLR4 {@link ATN}.
+ *
+ * <p>Construction is cheap; analysis runs lazily and exactly once, on the first call to
+ * {@link #firstSet(int)} or {@link #followSet(int)}. The computed sets expose not only the
+ * resulting token types but also the {@link Derivation derivation paths} that justify each
+ * token, making them suitable for error reporting and grammar tooling.
+ *
+ * <p>The special token type {@code -1} ({@code Token.EOF}) denotes both end-of-input (in
+ * FOLLOW sets) and the empty string / epsilon (in nullable FIRST sets).
+ */
 public class FFSet {
     private final ATN atn;
     private final Map<Integer, FirstSet> firstSets = new HashMap<>();
@@ -18,6 +29,9 @@ public class FFSet {
 
     private boolean analyzed = false;
 
+    /**
+     * @param atn the augmented transition network of the grammar to analyze
+     */
     public FFSet(ATN atn) {
         this.atn = atn;
     }
@@ -333,11 +347,25 @@ public class FFSet {
         }
     }
 
+    /**
+     * Returns the FIRST set of the rule with the given index, performing analysis on the
+     * first call.
+     *
+     * @param ruleIndex the index of the rule
+     * @return the rule's FIRST set
+     */
     public FirstSet firstSet(int ruleIndex) {
         analyze();
         return firstSets.get(ruleIndex);
     }
 
+    /**
+     * Returns the FOLLOW set of the rule with the given index, performing analysis on the
+     * first call.
+     *
+     * @param ruleIndex the index of the rule
+     * @return the rule's FOLLOW set
+     */
     public FollowSet followSet(int ruleIndex) {
         analyze();
         return followSets.get(ruleIndex);
