@@ -9,7 +9,7 @@ plugins {
     jacoco
 }
 
-group = "site.maien"
+group = "site.maien.antlr4"
 version = "1.0-SNAPSHOT"
 
 repositories {
