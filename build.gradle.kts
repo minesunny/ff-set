@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "site.maien.antlr4"
-version = "1.0-SNAPSHOT"
+version = System.getenv("RELEASE_VERSION") ?: "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -41,6 +41,8 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
+    withSourcesJar()
+    withJavadocJar()
 }
 
 // Parse credentials from local ~/.m2/settings.xml
