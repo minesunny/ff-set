@@ -77,6 +77,7 @@ publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
+            artifactId = "ffset"
         }
     }
     repositories {
