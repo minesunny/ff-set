@@ -1,6 +1,6 @@
-package site.maien.ffset;
+package site.maien.antlr4.ffset;
 
-import site.maien.ffset.compile.GrammarContext;
+import site.maien.antlr4.ffset.compile.GrammarContext;
 
 import org.antlr.v4.tool.Grammar;
 import org.junit.jupiter.api.Assertions;

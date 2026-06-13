@@ -1,4 +1,4 @@
-package site.maien.ffset;
+package site.maien.antlr4.ffset;
 
 import org.junit.jupiter.api.Test;
 

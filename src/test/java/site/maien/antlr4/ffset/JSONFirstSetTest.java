@@ -1,8 +1,8 @@
-package site.maien.ffset;
+package site.maien.antlr4.ffset;
 
 import org.junit.jupiter.api.Test;
 
-public class JSONFollowSetTest extends BasicTest{
+public class JSONFirstSetTest extends BasicTest{
     String grammar = """
             grammar JSON;
             
@@ -78,36 +78,39 @@ public class JSONFollowSetTest extends BasicTest{
 
     @Test
     public void test_obj_FirstSet(){
-        AssertFollowTokenSet(grammar, "obj","EOF");
-        AssertFollowRuleSet(grammar, "obj");
-        AssertParentRuleSet(grammar, "obj","value");
-        // the result path can have parent path, like value->pair->
-        AssertFollowSet(grammar, "obj","EOF", "value->EOF","value->,","value->]","value->pair->,","value->pair->}","value->json->EOF");
+        AssertFirstTokenSet(grammar, "obj","{");
+        AssertFirstRuleSet(grammar, "obj");
+        AssertFirstSet(grammar, "obj","{");
     }
     @Test
-    public void test_value_FollowSet(){
-        AssertFollowTokenSet(grammar, "value","," ,"]", "EOF");
-        AssertFollowRuleSet(grammar, "value");
-        AssertParentRuleSet(grammar, "value","json", "pair");
-        AssertFollowSet(grammar, "value",
-                "EOF",",","]","json->EOF","pair->,","pair->}");
+    public void test_value_FirstSet(){
+        AssertFirstTokenSet(grammar, "value","STRING","NUMBER","null","false","true");
+        AssertFirstRuleSet(grammar, "value","obj", "arr");
+
+        AssertFirstSet(grammar, "value",
+                "STRING", "NUMBER",
+                "obj->{", "arr->[",
+                "true", "false", "null");
     }
     @Test
-    public void test_json_FollowSet(){
-        AssertFollowTokenSet(grammar, "json","EOF");
-        AssertFollowRuleSet(grammar, "json");
-        AssertParentRuleSet(grammar, "json");
+    public void test_json_FirstSet(){
+        AssertFirstTokenSet(grammar, "json");
+        AssertFirstRuleSet(grammar, "json","value");
         // 对于antlr4生成的类，token就是一个终结符， 但是有些token并不是终结符，比如 STRING;
-        AssertFollowSet(grammar, "json",
-                "EOF");
+        AssertFirstSet(grammar, "json",
+                "value->STRING", "value->NUMBER",
+                "value->obj->{", "value->arr->[",
+                "value->true", "value->false","value->null");
     }
 
     @Test
-    public void test_pair_FollowSet(){
-        AssertFollowTokenSet(grammar, "pair", ",", "}");
-        AssertFollowRuleSet(grammar, "pair");
+    public void test_pair_FirstSet(){
+        AssertFirstTokenSet(grammar, "json");
+        AssertFirstRuleSet(grammar, "json","value");
         // 对于antlr4生成的类，token就是一个终结符， 但是有些token并不是终结符，比如 STRING;
-        AssertFollowSet(grammar, "pair",
-                ",", "}");
+        AssertFirstSet(grammar, "json",
+                "value->STRING", "value->NUMBER",
+                "value->obj->{", "value->arr->[",
+                "value->true", "value->false","value->null");
     }
 }
