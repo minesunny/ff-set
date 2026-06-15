@@ -89,8 +89,10 @@ publishing {
             val serverId = if (version.toString().endsWith("SNAPSHOT")) "2131514-snapshot-XjNDpc" else "2131514-release-kUcX67"
             val localCreds = getMavenCredentials(serverId)
             credentials {
-                username = System.getenv("ALIYUN_USERNAME") ?: localCreds?.first ?: ""
-                password = System.getenv("ALIYUN_PASSWORD") ?: localCreds?.second ?: ""
+                // Treat blank env vars as absent: an unset GitHub secret resolves to "" in CI,
+                // which is non-null and must not shadow the settings.xml fallback.
+                username = System.getenv("ALIYUN_USERNAME")?.takeIf { it.isNotBlank() } ?: localCreds?.first ?: ""
+                password = System.getenv("ALIYUN_PASSWORD")?.takeIf { it.isNotBlank() } ?: localCreds?.second ?: ""
             }
         }
     }
