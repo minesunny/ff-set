@@ -70,7 +70,8 @@ public class FFSet {
             visited.add(state);
 
             for (Transition transition : state.getTransitions()) {
-                if (transition instanceof RuleTransition ruleTransition) {
+                if (transition instanceof RuleTransition) {
+                    RuleTransition ruleTransition = (RuleTransition) transition;
                     directRules.add(ruleTransition.ruleIndex);
                 } else if (transition.isEpsilon()) {
                     queue.add(transition.target);
@@ -89,7 +90,8 @@ public class FFSet {
             if (visited.contains(state)) continue;
             visited.add(state);
             for (Transition transition : state.getTransitions()) {
-                if (transition instanceof RuleTransition ruleTransition) {
+                if (transition instanceof RuleTransition) {
+                    RuleTransition ruleTransition = (RuleTransition) transition;
                     ruleFollowStates.computeIfAbsent(ruleTransition.ruleIndex, k -> new ArrayList<>())
                             .add(ruleTransition.followState);
                     queue.add(ruleTransition.followState);
@@ -129,7 +131,8 @@ public class FFSet {
             visited.add(state);
 
             for (Transition transition : state.getTransitions()) {
-                if (transition instanceof RuleTransition ruleTransition) {
+                if (transition instanceof RuleTransition) {
+                    RuleTransition ruleTransition = (RuleTransition) transition;
                     if (transitiveNullableRules.contains(ruleTransition.ruleIndex)) {
                         queue.add(ruleTransition.followState);
                     }
@@ -200,7 +203,8 @@ public class FFSet {
             visited.add(state);
 
             for (Transition transition : state.getTransitions()) {
-                if (transition instanceof RuleTransition ruleTransition) {
+                if (transition instanceof RuleTransition) {
+                    RuleTransition ruleTransition = (RuleTransition) transition;
                     startRules.add(ruleTransition.ruleIndex);
                     if (transitiveNullableRules.contains(ruleTransition.ruleIndex)) {
                         queue.add(ruleTransition.followState);
@@ -226,7 +230,8 @@ public class FFSet {
                 if(s == stop || visited.contains(s)) continue;
                 visited.add(s);
                 for(Transition t : s.getTransitions()){
-                    if(t instanceof RuleTransition rt){
+                    if(t instanceof RuleTransition){
+                        RuleTransition rt = (RuleTransition) t;
                         rulesCalled.add(rt.ruleIndex);
                     }
                     queue.add(t.target);
@@ -318,7 +323,8 @@ public class FFSet {
             if (visited.contains(s)) continue;
             visited.add(s);
             for (Transition transition : s.getTransitions()) {
-                if (transition instanceof RuleTransition rt) {
+                if (transition instanceof RuleTransition) {
+                    RuleTransition rt = (RuleTransition) transition;
                     followSet.addDirectRule(rt.ruleIndex);
                     FirstSet fs = firstSets.get(rt.ruleIndex);
                     for (Derivation d : fs.getDerivations()) {

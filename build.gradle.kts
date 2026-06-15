@@ -9,6 +9,9 @@ plugins {
     jacoco
 }
 
+val targetJdk = (project.findProperty("targetJdk") as? String)?.toInt() ?: 17
+val toolchainVersion = maxOf(targetJdk, 17)
+
 group = "site.maien.antlr4"
 version = System.getenv("RELEASE_VERSION") ?: "1.0-SNAPSHOT"
 
@@ -39,10 +42,18 @@ tasks.jacocoTestReport {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(toolchainVersion))
     }
     withSourcesJar()
     withJavadocJar()
+}
+
+tasks.compileJava {
+    options.release.set(targetJdk)
+}
+
+tasks.withType<Jar> {
+    archiveBaseName.set("ff-set-jdk$targetJdk")
 }
 
 // Parse credentials from local ~/.m2/settings.xml
@@ -77,7 +88,7 @@ publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
-            artifactId = "ffset"
+            artifactId = "ffset-jdk$targetJdk"
         }
     }
     repositories {
