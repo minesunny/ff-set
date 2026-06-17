@@ -12,15 +12,18 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target-jdk: [8, 11, 17, 21]
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up JDK 17
+    - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        java-version: '17'
+        java-version: ${{ matrix.target-jdk == 21 && '21' || '17' }}
         distribution: 'temurin'
         cache: gradle
 
@@ -39,12 +42,12 @@ jobs:
         fi
 
     - name: Build, Test and Package
-      run: ./gradlew build
+      run: ./gradlew build -PtargetJdk=${{ matrix.target-jdk }}
       env:
         RELEASE_VERSION: ${{ steps.get_version.outputs.version }}
 
     - name: Publish to Maven Repository
-      run: ./gradlew publish
+      run: ./gradlew publish -PtargetJdk=${{ matrix.target-jdk }}
       env:
         RELEASE_VERSION: ${{ steps.get_version.outputs.version }}
         ALIYUN_USERNAME: ${{ secrets.ALIYUN_USERNAME }}
@@ -55,9 +58,9 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          build/libs/ff-set-${{ steps.get_version.outputs.version }}.jar
-          build/libs/ff-set-${{ steps.get_version.outputs.version }}-sources.jar
-          build/libs/ff-set-${{ steps.get_version.outputs.version }}-javadoc.jar
+          build/libs/ff-set-jdk${{ matrix.target-jdk }}-${{ steps.get_version.outputs.version }}.jar
+          build/libs/ff-set-jdk${{ matrix.target-jdk }}-${{ steps.get_version.outputs.version }}-sources.jar
+          build/libs/ff-set-jdk${{ matrix.target-jdk }}-${{ steps.get_version.outputs.version }}-javadoc.jar
         generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
