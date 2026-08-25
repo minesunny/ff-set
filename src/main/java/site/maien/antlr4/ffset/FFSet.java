@@ -311,7 +311,7 @@ public class FFSet {
                         followSet.addDerivation(new Derivation(Collections.emptyList(), -1));
                     }
                 }
-                for (Derivation d : parentFollow.getDerivations()) {
+                for (Derivation d : new ArrayList<>(parentFollow.getDerivations())) {
                     if (d.getPath().contains(state.ruleIndex)) continue; 
                     List<Integer> newPath = new ArrayList<>();
                     newPath.add(state.ruleIndex);
