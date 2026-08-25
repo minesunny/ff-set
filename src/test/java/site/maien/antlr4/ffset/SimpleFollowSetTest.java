@@ -179,4 +179,14 @@ public class SimpleFollowSetTest extends BasicTest{
         AssertFollowRuleSet(parser, "hello","hello","world");
         AssertFollowSet(parser, "hello","hello->HELLO", "world->WORLD", "helloWorld->EOF","EOF");
     }
+
+    @Test
+    void testRecursiveRuleFollowPropagation() {
+        String parser = """
+                grammar Recursive;
+                root: recursive EOF;
+                recursive: 'OPEN' recursive 'CLOSE' | 'BASE' recursive?;
+                """;
+        AssertFollowTokenSet(parser, "recursive", "CLOSE", "EOF");
+    }
 }
